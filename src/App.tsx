@@ -1,21 +1,49 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import logo from './logo.svg';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  //  Link
+} from 'react-router-dom';
 import './App.less';
+import DefaultLayout from '@/layouts/DefaultLayout';
 import HomePage from '@/views/HomePage';
+import CategoryView from '@/views/CategoryView';
+import TagView from '@/views/TagView';
+import ArticleDetail from '@/views/ArticleView';
 
+const Home = () => (
+  <DefaultLayout>
+    <HomePage />
+  </DefaultLayout>
+);
 function App() {
   return (
-    // <div className="App">
-    //   <HomePage />
-    // </div>
     <Router>
       <Switch>
         <Route exact path="/">
-          <HomePage />
+          <Home />
+        </Route>
+        <Route exact path="/article">
+          <Home />
+        </Route>
+        <Route exact path="/article/:id">
+          <DefaultLayout>
+            <ArticleDetail />
+          </DefaultLayout>
+        </Route>
+        <Route exact path="/category">
+          <DefaultLayout>
+            <CategoryView />
+          </DefaultLayout>
+        </Route>
+        <Route exact path="/tag">
+          <DefaultLayout>
+            <TagView />
+          </DefaultLayout>
         </Route>
         <Route path="/about">
-          <HomePage />
+          <Home />
         </Route>
       </Switch>
     </Router>

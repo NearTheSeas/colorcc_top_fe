@@ -1,12 +1,15 @@
 import React, { ReactElement, useState, useEffect } from 'react';
 import article from '@/modules/article';
-
 import ArticleList from '@/components/ArticleList';
-// import InfiniteScroll from 'react-infinite-scroller';
+import { Checkbox, Divider } from 'antd';
+import { CheckboxChangeEvent } from 'antd/lib/checkbox';
+import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 
-// interface Props {} {}: Props
+const CheckboxGroup = Checkbox.Group;
 
-export default function HomePage(): ReactElement {
+interface Props {}
+
+export default function TagView({}: Props): ReactElement {
   const [articleList, setArticleList] = useState([
     {
       id: 1,
@@ -75,6 +78,30 @@ export default function HomePage(): ReactElement {
     },
   ]);
 
+  const [indeterminate, setIndeterminate] = useState(true);
+  const [checkAll, setCheckAll] = useState(false);
+
+  const [plainOptions, setPlainOptions] = useState(['Apple', 'Pear', 'Orange']);
+  const [checkedList, setCheckedList] = useState<CheckboxValueType[]>([
+    'Apple',
+    'Pear',
+    'Orange',
+  ]);
+
+  const onChange = (checkedList: CheckboxValueType[]) => {
+    setCheckedList(checkedList);
+    setIndeterminate(
+      !!checkedList.length && checkedList.length < plainOptions.length
+    );
+    setCheckAll(checkedList.length === plainOptions.length);
+  };
+
+  const onCheckAllChange = (e: CheckboxChangeEvent) => {
+    setCheckedList(e.target.checked ? plainOptions : []);
+    setIndeterminate(false);
+    setCheckAll(e.target.checked);
+  };
+
   const getArtileList = async () => {
     let result = await article.getArtileList();
     setArticleList(result.data || []);
@@ -86,6 +113,27 @@ export default function HomePage(): ReactElement {
 
   return (
     <div className={['container'].join(' ')}>
+      <div
+        style={{
+          padding: 10,
+          marginBottom: 15,
+          borderBottom: '1px solid #ddd',
+        }}
+      >
+        <Checkbox
+          indeterminate={indeterminate}
+          onChange={onCheckAllChange}
+          checked={checkAll}
+        >
+          全选
+        </Checkbox>
+        <Divider type="vertical" />
+        <CheckboxGroup
+          options={plainOptions}
+          value={checkedList}
+          onChange={onChange}
+        />
+      </div>
       <ArticleList dataSource={articleList} />
     </div>
   );

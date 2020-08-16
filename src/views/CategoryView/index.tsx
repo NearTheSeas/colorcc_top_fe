@@ -1,12 +1,12 @@
 import React, { ReactElement, useState, useEffect } from 'react';
 import article from '@/modules/article';
-
 import ArticleList from '@/components/ArticleList';
-// import InfiniteScroll from 'react-infinite-scroller';
+import { Tabs } from 'antd';
+const { TabPane } = Tabs;
 
-// interface Props {} {}: Props
+interface Props {}
 
-export default function HomePage(): ReactElement {
+export default function CategoryView({}: Props): ReactElement {
   const [articleList, setArticleList] = useState([
     {
       id: 1,
@@ -80,12 +80,21 @@ export default function HomePage(): ReactElement {
     setArticleList(result.data || []);
   };
 
+  const tabChange = (category: string) => {
+    console.log('查找对应分类下的数据')
+  };
+
   useEffect(() => {
     getArtileList();
   }, []);
 
   return (
     <div className={['container'].join(' ')}>
+      <Tabs centered size="large" defaultActiveKey="1" onChange={tabChange}>
+        <TabPane tab="分类1" key="1"></TabPane>
+        <TabPane tab="分类2" key="2"></TabPane>
+        <TabPane tab="分类3" key="3"></TabPane>
+      </Tabs>
       <ArticleList dataSource={articleList} />
     </div>
   );

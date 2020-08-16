@@ -1,0 +1,46 @@
+.default-layout-wrapper {
+  .trigger {
+    font-size: 18px;
+    line-height: 64px;
+    padding: 0 24px;
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .trigger:hover {
+    color: #1890ff;
+  }
+
+  .layout-left-slide {
+    background: #fff;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16),
+      0 2px 10px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  .site-layout-main-container {
+    background-color: #fff;
+    height: calc(100% - 100px);
+    padding-left: 200px;
+    transition: all 0.3s ease-in-out;
+  }
+
+  &.hide-side-bar .site-layout-main-container {
+    padding-left: 80px;
+  }
+
+  .collepsed-btn {
+    position: absolute;
+    right: -66px;
+    top: 0;
+    color: #fff;
+  }
+
+  .logo {
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 16px;
+  }
+}
