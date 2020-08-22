@@ -1,10 +1,10 @@
-import React, { ReactElement, useState, useContext, useEffect } from 'react';
+import React, { ReactElement, useState, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import Login from '@/components/Login';
-import { Layout, Menu, Avatar } from 'antd';
+import { Layout, Menu, Avatar, Modal } from 'antd';
 import {
   DoubleRightOutlined,
-  CloseOutlined,
+  DoubleLeftOutlined,
   HomeOutlined,
   GroupOutlined,
   TagOutlined,
@@ -13,16 +13,17 @@ import {
 } from '@ant-design/icons';
 import './DefaultLayout.less';
 import avatar from '@/assets/avatar.jpg';
-import { UserContext } from '@/modules/UserContext';
+import { UserContext, actions } from '@/modules/UserContext';
 
 const { Header, Footer, Content, Sider } = Layout;
+const { confirm } = Modal;
 
 interface Props {
   children: ReactElement[] | ReactElement;
 }
 
 function DefaultLayout({ children }: any): ReactElement {
-  const { userState } = useContext(UserContext);
+  const { userState, dispatch } = useContext(UserContext);
   const [collapsed, setCollapsed] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const { username, isLogin } = userState;
@@ -32,8 +33,22 @@ function DefaultLayout({ children }: any): ReactElement {
   };
 
   const showLoginModal = () => {
-    !isLogin && setShowLogin(true);
+    isLogin ? logOut() : setShowLogin(true);
   };
+
+  const logOut = () => {
+    confirm({
+      title: '退出登录',
+      content: '是否确定退出登录?',
+      onOk() {
+        dispatch({ type: actions.USER_LOOUT });
+      },
+      onCancel() {
+        console.log('Cancel');
+      },
+    });
+  };
+
   return (
     <Layout
       className={`default-layout-wrapper ${collapsed ? 'hide-side-bar' : ''}`}
@@ -44,16 +59,18 @@ function DefaultLayout({ children }: any): ReactElement {
         collapsible
         collapsed={collapsed}
       >
-        <div className="user_info" onClick={showLoginModal}>
-          <Avatar size={collapsed ? 50 : 140} src={avatar} />
+        <div className="user_info">
+          <div onClick={showLoginModal}>
+            <Avatar size={collapsed ? 50 : 140} src={avatar} />
+          </div>
           <div className="connect">
             <div>{username}</div>
-            <div>联系方式</div>
+            <div>mail@126.com</div>
           </div>
         </div>
         <div className="collepsed-btn">
           {React.createElement(
-            collapsed ? DoubleRightOutlined : CloseOutlined,
+            collapsed ? DoubleRightOutlined : DoubleLeftOutlined,
             {
               className: 'trigger',
               onClick: toggle,
@@ -66,7 +83,6 @@ function DefaultLayout({ children }: any): ReactElement {
               首页
             </NavLink>
           </Menu.Item>
-
           <Menu.Item key="category" icon={<GroupOutlined />}>
             <NavLink to="/category" activeClassName="selected">
               分类
@@ -80,7 +96,7 @@ function DefaultLayout({ children }: any): ReactElement {
           {isLogin && (
             <Menu.Item key="admin" icon={<FileTextOutlined />}>
               <NavLink to="/admin" activeClassName="selected">
-                Atrticle
+                文章管理
               </NavLink>
             </Menu.Item>
           )}

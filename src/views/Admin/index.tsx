@@ -2,23 +2,23 @@ import React, { ReactElement } from 'react';
 import { Tabs, Table, Tag, Space } from 'antd';
 
 const { TabPane } = Tabs;
+const { Column } = Table;
 
 interface Props {}
 
-const columns = [
+const columnsArticle = [
   {
-    title: 'Name',
+    title: 'Title',
     dataIndex: 'name',
     key: 'name',
-    render: (text: any) => <a>{text}</a>,
   },
   {
-    title: 'Age',
+    title: 'Description',
     dataIndex: 'age',
     key: 'age',
   },
   {
-    title: 'Address',
+    title: 'Categorty',
     dataIndex: 'address',
     key: 'address',
   },
@@ -47,7 +47,7 @@ const columns = [
     key: 'action',
     render: (text: any, record: any) => (
       <Space size="middle">
-        <a>Invite {record.name}</a>
+        <a>Edit </a>
         <a>Delete</a>
       </Space>
     ),
@@ -81,16 +81,46 @@ const data = [
 export default function Admin({}: Props): ReactElement {
   const tabPaneChange = () => {};
   return (
-    <div>
+    <div className={['container'].join(' ')}>
       <Tabs defaultActiveKey="1" onChange={tabPaneChange}>
-        <TabPane tab="Tab 1" key="1">
-          <Table columns={columns} dataSource={data} />
+        <TabPane tab="文章管理" key="1">
+          <div>
+            <Table columns={columnsArticle} dataSource={data} />
+          </div>
         </TabPane>
-        <TabPane tab="Tab 2" key="2">
-          Content of Tab Pane 2
+        <TabPane tab="分类管理" key="2">
+          <Table dataSource={data}>
+            <Column title="分类名称" dataIndex="name" key="name" />
+            <Column title="文章数" dataIndex="age" key="age" />
+            <Column
+              width={100}
+              title="Action"
+              dataIndex="Action"
+              key="Action"
+              render={(text: any, record: any) => (
+                <Space size="middle">
+                  <a>Edit </a>
+                </Space>
+              )}
+            />
+          </Table>
         </TabPane>
-        <TabPane tab="Tab 3" key="3">
-          Content of Tab Pane 3
+        <TabPane tab="标签管理" key="3">
+          <Table dataSource={data}>
+            <Column title="标签名称" dataIndex="name" key="name" />
+            <Column title="文章数" dataIndex="age" key="age" />
+            <Column
+              width={100}
+              title="Action"
+              dataIndex="Action"
+              key="Action"
+              render={(text: any, record: any) => (
+                <Space size="middle">
+                  <a>Edit </a>
+                </Space>
+              )}
+            />
+          </Table>
         </TabPane>
       </Tabs>
     </div>

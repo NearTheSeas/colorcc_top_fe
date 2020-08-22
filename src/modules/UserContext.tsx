@@ -5,22 +5,23 @@ const USER_LOOUT = 'USER_LOOUT';
 
 export const actions = { USER_LOGIN, USER_LOOUT };
 
+const initialState = { username: 'ColorCC', isLogin: true, token: '' };
+
 const userReducer = (
   state: object,
   action: { type: typeof USER_LOGIN | typeof USER_LOOUT; payload?: object }
 ) => {
   switch (action.type) {
     case USER_LOGIN:
-      return { ...state, ...action.payload };
+      return { ...state, ...action.payload, isLogin: true };
     case USER_LOOUT:
-      return { ...state };
+      return { ...initialState };
     default:
-      return { ...state };
+      return { ...initialState };
   }
 };
 
 export const UserContext: Context<any> = createContext({});
-const initialState = { username: 'ColorCC', isLogin: false };
 
 export const UserProvider = ({ children }: any) => {
   const [userState, dispatch] = useReducer(userReducer, initialState);

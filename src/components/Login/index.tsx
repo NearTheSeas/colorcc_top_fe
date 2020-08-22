@@ -19,18 +19,16 @@ const tailLayout = {
 
 export default function Login({ visible, onCancel }: Props): ReactElement {
   const { dispatch } = useContext(UserContext);
+
   const onFinish = (values: any) => {
     console.log('Success:', values);
     dispatch({
       type: actions.USER_LOGIN,
-      payload: { username: 'ColorCC', token: 'asdasdsd', isLogin: true },
+      payload: { username: 'ColorCC', token: 'asdasdsd' },
     });
     onCancel();
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
-  };
   return (
     <Modal title="Welcome" visible={visible} onCancel={onCancel} footer={false}>
       <Form
@@ -38,14 +36,13 @@ export default function Login({ visible, onCancel }: Props): ReactElement {
         name="login"
         initialValues={{ remember: true }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
       >
         <Form.Item
           label="用户名"
           name="username"
           rules={[{ required: true, message: 'Please input your username!' }]}
         >
-          <Input />
+          <Input autoComplete="off" />
         </Form.Item>
         <Form.Item
           label="密码"

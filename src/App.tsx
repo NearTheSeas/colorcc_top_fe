@@ -11,7 +11,7 @@ import HomePage from '@/views/HomePage';
 import CategoryView from '@/views/CategoryView';
 import TagView from '@/views/TagView';
 import ArticleDetail from '@/views/ArticleView';
-import About from '@/views/About';
+import Admin from '@/views/Admin';
 import { UserProvider } from '@/modules/UserContext';
 
 function App() {
@@ -27,24 +27,16 @@ function App() {
               <HomePage />
             </Route>
             <Route exact path="/article/:id">
-              {/* <DefaultLayout> */}
               <ArticleDetail />
-              {/* </DefaultLayout> */}
             </Route>
             <Route exact path="/category">
-              {/* <DefaultLayout> */}
               <CategoryView />
-              {/* </DefaultLayout> */}
             </Route>
             <Route exact path="/tag">
-              {/* <DefaultLayout> */}
               <TagView />
-              {/* </DefaultLayout> */}
             </Route>
-            <Route path="/about">
-              {/* <DefaultLayout> */}
-              <About />
-              {/* </DefaultLayout> */}
+            <Route path="/admin">
+              <Admin />
             </Route>
           </Switch>
         </DefaultLayout>
