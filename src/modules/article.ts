@@ -5,6 +5,7 @@ export interface ArticleProps {
   title: string;
   date: Date | string;
   tags?: string[];
+  description?: string;
   category?: string;
   content?: string;
 }

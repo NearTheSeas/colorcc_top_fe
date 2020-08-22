@@ -27,10 +27,6 @@
     transition: all 0.3s ease-in-out;
   }
 
-  &.hide-side-bar .site-layout-main-container {
-    padding-left: 80px;
-  }
-
   .collepsed-btn {
     position: absolute;
     right: -66px;
@@ -38,9 +34,37 @@
     color: #fff;
   }
 
-  .logo {
-    height: 32px;
-    background: rgba(255, 255, 255, 0.2);
-    margin: 16px;
+  .user_info {
+    background-image: url('../assets/brand.jpg');
+    background-size: cover;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    img {
+      width: 140px;
+      height: 140px;
+    }
+  }
+
+  &.hide-side-bar {
+    .site-layout-main-container {
+      padding-left: 80px;
+    }
+    .user_info {
+      width: 80px;
+      height: 80px;
+      .connect {
+        display: none;
+      }
+      img {
+        width: 50px;
+        height: 50px;
+        background-image: none;
+      }
+    }
   }
 }

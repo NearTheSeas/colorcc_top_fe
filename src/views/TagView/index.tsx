@@ -1,11 +1,12 @@
 import React, { ReactElement, useState, useEffect } from 'react';
 import article from '@/modules/article';
 import ArticleList from '@/components/ArticleList';
-import { Checkbox, Divider } from 'antd';
+import { Checkbox, Divider, Tag } from 'antd';
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
 import { CheckboxValueType } from 'antd/lib/checkbox/Group';
 
 const CheckboxGroup = Checkbox.Group;
+const { CheckableTag } = Tag;
 
 interface Props {}
 

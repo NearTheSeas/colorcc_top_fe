@@ -1,15 +1,19 @@
-import React, { ReactElement, useState } from 'react';
-import { Layout, Menu } from 'antd';
+import React, { ReactElement, useState, useContext, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
+import Login from '@/components/Login';
+import { Layout, Menu, Avatar } from 'antd';
 import {
   DoubleRightOutlined,
   CloseOutlined,
   HomeOutlined,
-  FileTextOutlined,
   GroupOutlined,
   TagOutlined,
+  // UserSwitchOutlined,
+  FileTextOutlined,
 } from '@ant-design/icons';
-import { BrowserRouter as Router, NavLink } from 'react-router-dom';
-import './defaultLayout.less';
+import './DefaultLayout.less';
+import avatar from '@/assets/avatar.jpg';
+import { UserContext } from '@/modules/UserContext';
 
 const { Header, Footer, Content, Sider } = Layout;
 
@@ -17,11 +21,18 @@ interface Props {
   children: ReactElement[] | ReactElement;
 }
 
-export default function DefaultLayout({ children }: Props): ReactElement {
+function DefaultLayout({ children }: any): ReactElement {
+  const { userState } = useContext(UserContext);
   const [collapsed, setCollapsed] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const { username, isLogin } = userState;
 
   const toggle = () => {
     setCollapsed(!collapsed);
+  };
+
+  const showLoginModal = () => {
+    !isLogin && setShowLogin(true);
   };
   return (
     <Layout
@@ -33,7 +44,13 @@ export default function DefaultLayout({ children }: Props): ReactElement {
         collapsible
         collapsed={collapsed}
       >
-        <div className="logo" />
+        <div className="user_info" onClick={showLoginModal}>
+          <Avatar size={collapsed ? 50 : 140} src={avatar} />
+          <div className="connect">
+            <div>{username}</div>
+            <div>联系方式</div>
+          </div>
+        </div>
         <div className="collepsed-btn">
           {React.createElement(
             collapsed ? DoubleRightOutlined : CloseOutlined,
@@ -49,11 +66,7 @@ export default function DefaultLayout({ children }: Props): ReactElement {
               首页
             </NavLink>
           </Menu.Item>
-          <Menu.Item key="article" icon={<FileTextOutlined />}>
-            <NavLink to="/article" activeClassName="selected">
-              Atrticle
-            </NavLink>
-          </Menu.Item>
+
           <Menu.Item key="category" icon={<GroupOutlined />}>
             <NavLink to="/category" activeClassName="selected">
               分类
@@ -64,11 +77,20 @@ export default function DefaultLayout({ children }: Props): ReactElement {
               标签
             </NavLink>
           </Menu.Item>
-          <Menu.Item key="about" icon={<TagOutlined />}>
-            <NavLink to="/about" activeClassName="selected">
-              About
-            </NavLink>
-          </Menu.Item>
+          {isLogin && (
+            <Menu.Item key="admin" icon={<FileTextOutlined />}>
+              <NavLink to="/admin" activeClassName="selected">
+                Atrticle
+              </NavLink>
+            </Menu.Item>
+          )}
+          {/* {isLogin && (
+            <Menu.Item key="about" icon={<UserSwitchOutlined />}>
+              <NavLink to="/about" activeClassName="selected">
+                About
+              </NavLink>
+            </Menu.Item>
+          )} */}
         </Menu>
       </Sider>
       <Layout className="site-layout">
@@ -80,6 +102,9 @@ export default function DefaultLayout({ children }: Props): ReactElement {
           <div style={{ textAlign: 'center' }}>版权声明 ColoCC.TOP</div>
         </Footer>
       </Layout>
+      <Login visible={showLogin} onCancel={() => setShowLogin(false)} />
     </Layout>
   );
 }
+
+export default DefaultLayout;

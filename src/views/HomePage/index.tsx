@@ -86,7 +86,7 @@ export default function HomePage(): ReactElement {
 
   return (
     <div className={['container'].join(' ')}>
-      <ArticleList dataSource={articleList} />
+      <ArticleList dataSource={articleList} columns={1} />
     </div>
   );
 }
