@@ -65,6 +65,10 @@ export default function ManageTag(): ReactElement {
     });
   };
 
+  const onCancel = () => {
+    setVisible(false);
+    form.resetFields();
+  };
   useEffect(() => {
     fetchAllTags();
   }, []);
@@ -103,7 +107,7 @@ export default function ManageTag(): ReactElement {
       <Modal
         title="Tag"
         visible={visible}
-        onCancel={() => setVisible(false)}
+        onCancel={onCancel}
         destroyOnClose
         footer={false}
       >
@@ -123,7 +127,7 @@ export default function ManageTag(): ReactElement {
           </Form.Item>
           <Form.Item {...tailLayout} style={{ textAlign: 'center' }}>
             <Button type="primary" htmlType="submit">
-              submit
+              Submit
             </Button>
           </Form.Item>
         </Form>

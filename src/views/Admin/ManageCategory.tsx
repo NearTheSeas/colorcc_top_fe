@@ -65,6 +65,11 @@ export default function ManageCategory(): ReactElement {
     });
   };
 
+  const onCancel = () => {
+    setVisible(false);
+    form.resetFields();
+  };
+
   useEffect(() => {
     fetchAllCategories();
   }, []);
@@ -107,7 +112,7 @@ export default function ManageCategory(): ReactElement {
       <Modal
         title="Category"
         visible={visible}
-        onCancel={() => setVisible(false)}
+        onCancel={onCancel}
         destroyOnClose
         footer={false}
       >
@@ -127,7 +132,7 @@ export default function ManageCategory(): ReactElement {
           </Form.Item>
           <Form.Item {...tailLayout} style={{ textAlign: 'center' }}>
             <Button type="primary" htmlType="submit">
-              submit
+              Submit
             </Button>
           </Form.Item>
         </Form>
