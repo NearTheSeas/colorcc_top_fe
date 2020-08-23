@@ -40,7 +40,6 @@ export default function ManageArticle(): ReactElement {
     console.log(values);
     const { date, ...others } = values;
     let [start, end] = date;
-    // let dataRange =
     console.log(start.format('YYYY-MM-DD HH:mm:ss'));
     fetchAllArticle({
       ...others,
@@ -67,7 +66,6 @@ export default function ManageArticle(): ReactElement {
     let {
       data: { data: articles },
     } = await articleApi.fetchAll(values);
-    console.log(articles);
     setArticles(articles);
   };
 

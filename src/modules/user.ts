@@ -8,5 +8,5 @@ export interface props {
 
 export default {
   login: (params: props) => api.post(`/user/login`, Qs.stringify(params)),
-  logout: () => api.post(`/user/logout`),
+  logout: () => api.get(`/user/logout`),
 };

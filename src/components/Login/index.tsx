@@ -20,13 +20,14 @@ const tailLayout = {
 
 export default function Login({ visible, onCancel }: Props): ReactElement {
   const { dispatch } = useContext(UserContext);
-
+  const [form] = Form.useForm();
   const onFinish = async (values: any) => {
     let {
       data: { username, message: msg },
     } = await userApi.login(values);
     if (username) {
       message.success(msg);
+      form.resetFields();
       dispatch({
         type: actions.USER_LOGIN,
         payload: { username: username },
@@ -42,6 +43,7 @@ export default function Login({ visible, onCancel }: Props): ReactElement {
       <Form
         {...layout}
         name="login"
+        form={form}
         initialValues={{ remember: true }}
         onFinish={onFinish}
       >

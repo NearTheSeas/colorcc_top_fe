@@ -50,6 +50,7 @@ function DefaultLayout({ children }: any): ReactElement {
           data: { message: msg },
         } = await userApi.logout();
         message.success(msg);
+        history.push('/');
         dispatch({ type: actions.USER_LOOUT });
       },
       onCancel() {
