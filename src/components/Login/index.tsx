@@ -1,6 +1,7 @@
 import React, { ReactElement, useContext } from 'react';
-import { Modal, Form, Input, Button } from 'antd';
+import { Modal, Form, Input, Button, message } from 'antd';
 import { UserContext, actions } from '@/modules/UserContext';
+import userApi from '@/modules/user';
 // import styles from './index.module.less';
 
 interface Props {
@@ -20,13 +21,20 @@ const tailLayout = {
 export default function Login({ visible, onCancel }: Props): ReactElement {
   const { dispatch } = useContext(UserContext);
 
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
-    dispatch({
-      type: actions.USER_LOGIN,
-      payload: { username: 'ColorCC', token: 'asdasdsd' },
-    });
-    onCancel();
+  const onFinish = async (values: any) => {
+    let {
+      data: { username, message: msg },
+    } = await userApi.login(values);
+    if (username) {
+      message.success(msg);
+      dispatch({
+        type: actions.USER_LOGIN,
+        payload: { username: username },
+      });
+      onCancel();
+    } else {
+      message.error(msg);
+    }
   };
 
   return (

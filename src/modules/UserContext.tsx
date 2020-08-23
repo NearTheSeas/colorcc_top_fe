@@ -1,11 +1,11 @@
-import React, { useContext, useReducer, createContext, Context } from 'react';
+import React, { useReducer, createContext, Context } from 'react';
 
 const USER_LOGIN = 'USER_LOGIN';
 const USER_LOOUT = 'USER_LOOUT';
 
 export const actions = { USER_LOGIN, USER_LOOUT };
 
-const initialState = { username: 'ColorCC', isLogin: true, token: '' };
+const initialState = { username: 'ColorCC', isLogin: false };
 
 const userReducer = (
   state: object,

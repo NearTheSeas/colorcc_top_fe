@@ -1,7 +1,7 @@
-import React, { ReactElement, useState, useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import React, { ReactElement, useState, useContext, useEffect } from 'react';
+import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import Login from '@/components/Login';
-import { Layout, Menu, Avatar, Modal } from 'antd';
+import { Layout, Menu, Avatar, Modal, message } from 'antd';
 import {
   DoubleRightOutlined,
   DoubleLeftOutlined,
@@ -14,6 +14,7 @@ import {
 import './DefaultLayout.less';
 import avatar from '@/assets/avatar.jpg';
 import { UserContext, actions } from '@/modules/UserContext';
+import userApi from '@/modules/user';
 
 const { Header, Footer, Content, Sider } = Layout;
 const { confirm } = Modal;
@@ -27,6 +28,10 @@ function DefaultLayout({ children }: any): ReactElement {
   const [collapsed, setCollapsed] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const { username, isLogin } = userState;
+  let location = useLocation();
+  let history = useHistory();
+
+  let urls = location.pathname.split('/');
 
   const toggle = () => {
     setCollapsed(!collapsed);
@@ -40,7 +45,11 @@ function DefaultLayout({ children }: any): ReactElement {
     confirm({
       title: '退出登录',
       content: '是否确定退出登录?',
-      onOk() {
+      onOk: async () => {
+        let {
+          data: { message: msg },
+        } = await userApi.logout();
+        message.success(msg);
         dispatch({ type: actions.USER_LOOUT });
       },
       onCancel() {
@@ -48,6 +57,12 @@ function DefaultLayout({ children }: any): ReactElement {
       },
     });
   };
+
+  useEffect(() => {
+    if (!isLogin && urls.includes('admin')) {
+      history.push('/');
+    }
+  }, [location]);
 
   return (
     <Layout
@@ -77,7 +92,7 @@ function DefaultLayout({ children }: any): ReactElement {
             }
           )}
         </div>
-        <Menu mode="inline" defaultSelectedKeys={['1']}>
+        <Menu mode="inline" selectedKeys={urls}>
           <Menu.Item key="home" icon={<HomeOutlined />}>
             <NavLink to="/" activeClassName="selected">
               首页
@@ -114,9 +129,9 @@ function DefaultLayout({ children }: any): ReactElement {
           asd
         </Header>
         <Content className="site-layout-main-container">{children}</Content>
-        <Footer>
+        {/* <Footer>
           <div style={{ textAlign: 'center' }}>版权声明 ColoCC.TOP</div>
-        </Footer>
+        </Footer> */}
       </Layout>
       <Login visible={showLogin} onCancel={() => setShowLogin(false)} />
     </Layout>

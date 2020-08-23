@@ -1,0 +1,25 @@
+// @import 'codemirror/lib/codemirror.css';
+// @import 'codemirror/theme/material.css';
+
+.article_wrapper {
+  padding: 20px;
+
+  :global {
+    .CodeMirror {
+      padding: 10px;
+      height: calc(100vh - 150px);
+    }
+  }
+}
+
+.article_edirot {
+  height: calc(100vh - 150px);
+}
+
+.article_render {
+  border: 1px solid #ddd;
+  padding: 10px;
+  height: calc(100vh - 150px);
+  background-color: #eee;
+  overflow: scroll;
+}

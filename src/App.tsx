@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,6 +12,7 @@ import CategoryView from '@/views/CategoryView';
 import TagView from '@/views/TagView';
 import ArticleDetail from '@/views/ArticleView';
 import Admin from '@/views/Admin';
+import EditArticle from '@/views/Admin/EditArticle';
 import { UserProvider } from '@/modules/UserContext';
 
 function App() {
@@ -35,8 +36,14 @@ function App() {
             <Route exact path="/tag">
               <TagView />
             </Route>
-            <Route path="/admin">
+            <Route exact path="/admin">
               <Admin />
+            </Route>
+            <Route exact path="/admin/editarticle">
+              <EditArticle />
+            </Route>
+            <Route path="/admin/editarticle/:id">
+              <EditArticle />
             </Route>
           </Switch>
         </DefaultLayout>
